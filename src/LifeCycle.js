@@ -5,6 +5,7 @@ const UnmountTest = () => {
 		console.log("Mount!");
 
 		return () => {
+			// Unmount 시점에 실행되게 됨.
 			console.log("Unmount");
 		};
 	}, []);
