@@ -1,11 +1,9 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import "./App.scss";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import LifeCycle from "./LifeCycle";
-import OptimizeTest from "./OptimizeTest";
 
-function App() {
+const App = () => {
 	const [data, setData] = useState([]);
 
 	const dataId = useRef(0);
@@ -14,7 +12,6 @@ function App() {
 		const res = await fetch(
 			"https://jsonplaceholder.typicode.com/comments"
 		).then((res) => res.json());
-		console.log(res);
 
 		const initData = res.slice(0, 20).map((it) => {
 			return {
@@ -33,7 +30,7 @@ function App() {
 		getData();
 	}, []);
 
-	const onCreate = (author, content, emotion) => {
+	const onCreate = useCallback((author, content, emotion) => {
 		const created_date = new Date().getTime();
 		const newItem = {
 			onRemove,
@@ -44,8 +41,8 @@ function App() {
 			id: dataId.current,
 		};
 		dataId.current += 1;
-		setData([newItem, ...data]);
-	};
+		setData((data) => [newItem, ...data]);
+	}, []);
 
 	const onRemove = (targetId) => {
 		const newDiaryList = data.filter((it) => it.id !== targetId);
@@ -71,8 +68,6 @@ function App() {
 
 	return (
 		<div className="App">
-			<OptimizeTest />
-			<LifeCycle />
 			<DiaryEditor onCreate={onCreate} />
 			<div>전체 일기 : {data.length}</div>
 			<div>기분 좋은 일기 개수 : {goodCount}</div>
@@ -81,6 +76,6 @@ function App() {
 			<DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} />
 		</div>
 	);
-}
+};
 
 export default App;

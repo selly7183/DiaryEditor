@@ -15,10 +15,7 @@ const CounterB = ({ obj }) => {
 };
 
 const areEqual = (prevProps, nextProps) => {
-	if (prevProps.obj.count === nextProps.obj.count) {
-		return true;
-	}
-	return false;
+	return prevProps.obj.count === nextProps.obj.count;
 };
 
 const MemoizedCounterB = React.memo(CounterB, areEqual);
