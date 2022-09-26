@@ -93,14 +93,14 @@ const App = () => {
 		return { onCreate, onRemove, onEdit };
 	}, []);
 
-	const memoizedDiaryAnalysis = useMemo(() => {
+	const getDiaryAnalysis = useMemo(() => {
 		const goodCount = data.filter((it) => it.emotion >= 3).length;
 		const badCount = data.length - goodCount;
 		const goodRatio = (goodCount / data.length) * 100.0;
 		return { goodCount, badCount, goodRatio };
 	}, [data.length]);
 
-	const { goodCount, badCount, goodRatio } = memoizedDiaryAnalysis;
+	const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
 
 	return (
 		<DiaryStateContext.Provider value={data}>
